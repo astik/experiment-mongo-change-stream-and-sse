@@ -4,7 +4,7 @@ import { initRouter } from './initRouter';
 const config = {
 	server: {
 		hostname: 'localhost',
-		port: '3000'
+		port: '3001'
 	},
 	database: {
 		username: '',
