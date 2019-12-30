@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks';
 import { configureStore as configureReduxStore } from '../../store';
 import { AppBar } from '../AppBar';
 import { Loader } from '../Loader';

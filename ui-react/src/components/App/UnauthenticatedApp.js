@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -42,6 +42,7 @@ export const UnauthenticatedApp = () => {
 						required
 						onChange={event => setUsername(event.target.value)}
 						value={username}
+						fullWidth={true}
 					/>
 				</CardContent>
 				<CardActions>

@@ -22,4 +22,10 @@ export const configureStore = () => {
 };
 
 export * from './actions';
-export { isAuthenticating, isAuthenticated, getUserName } from './reducer';
+export {
+	isAuthenticating,
+	isAuthenticated,
+	getUserName,
+	isMessagesInitializing,
+	getMessages
+} from './reducer';
