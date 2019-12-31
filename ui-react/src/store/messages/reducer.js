@@ -1,13 +1,16 @@
 import {
 	MESSAGES_REQUESTED,
 	MESSAGES_RECEIVED,
-	MESSAGES_REFRESHER_INITIALIZED
+	MESSAGES_REFRESHER_INITIALIZED,
+	MESSAGES_NEW_POSTED,
+	MESSAGES_NEW_ADDED
 } from './actions';
 
 const virginState = {
 	initializing: false,
 	messages: [],
-	refresherId: undefined
+	refresherId: undefined,
+	newPosting: false
 };
 
 const MAX_MESSAGES = 5;
@@ -33,6 +36,16 @@ const reducer = (state = { ...virginState }, action) => {
 				...state,
 				refresherId: action.refresherId
 			};
+		case MESSAGES_NEW_POSTED:
+			return {
+				...state,
+				newPosting: true
+			};
+		case MESSAGES_NEW_ADDED:
+			return {
+				...state,
+				newPosting: false
+			};
 		default:
 			return state;
 	}
@@ -43,3 +56,4 @@ export default reducer;
 // selectors
 export const isInitializing = state => state.initializing;
 export const getMessages = state => state.messages;
+export const isNewPosting = state => state.newPosting;

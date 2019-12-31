@@ -26,6 +26,7 @@ export const initMessages = () => dispatch => {
 	dispatch(messagesAction.messagesRequested());
 	messagesService.getMessages().then(messages => {
 		dispatch(messagesAction.messagesReceived(messages));
+		// TODO manage with SSE instead of mocked interval
 		const refresherId = setInterval(() => {
 			dispatch(
 				messagesAction.messagesReceived([
@@ -39,5 +40,24 @@ export const initMessages = () => dispatch => {
 			);
 		}, 3000);
 		dispatch(messagesAction.messagesRefresherInitialized(refresherId));
+	});
+};
+
+export const postNewMessage = newMessage => (dispatch, getState) => {
+	dispatch(messagesAction.newMessagePosted(newMessage));
+	messagesService.postNewMessage(newMessage).then(() => {
+		const login = getState().authentication.login;
+		// TODO remove this explicit dispatch after switching to SSE
+		dispatch(
+			messagesAction.messagesReceived([
+				{
+					_id: new Date().getTime(),
+					date: new Date(),
+					message: newMessage,
+					user: login
+				}
+			])
+		);
+		dispatch(messagesAction.newMessageAdded());
 	});
 };

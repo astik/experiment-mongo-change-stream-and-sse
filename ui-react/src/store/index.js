@@ -27,5 +27,6 @@ export {
 	isAuthenticated,
 	getUserName,
 	isMessagesInitializing,
-	getMessages
+	getMessages,
+	isNewMessagePosting
 } from './reducer';

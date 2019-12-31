@@ -18,6 +18,16 @@ const getMessages = db => async (req, res) => {
 	res.json(data);
 };
 
+const postMessages = db => async (req, res) => {
+	const { newMessage } = req.body;
+	await db.collection('myData').insertOne({
+		date: new Date(),
+		message: newMessage,
+		user: req.user
+	});
+	res.json({ ok: true });
+};
+
 const login = (req, res) => {
 	const { login } = req.body;
 	if (!login) {
@@ -49,6 +59,7 @@ export const initRouter = ({ hostname, port }, db) => {
 	app.use(cookieParser());
 	app.use(handleAuth);
 	app.route('/messages').get(getMessages(db));
+	app.route('/messages').post(postMessages(db));
 	app.route('/login').post(login);
 	app.route('/logout').post(logout);
 	app.use(handle404);

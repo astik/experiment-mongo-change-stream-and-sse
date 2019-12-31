@@ -1,4 +1,4 @@
-import { get } from './api';
+import { get, post } from './api';
 
 // get /messages
 export const getMessages = () => {
@@ -9,4 +9,9 @@ export const getMessages = () => {
 			return message;
 		})
 	);
+};
+
+export const postNewMessage = newMessage => {
+	console.log('postNewMessage');
+	return post('/messages', { newMessage });
 };

@@ -17,3 +17,5 @@ export const getUserName = state =>
 export const isMessagesInitializing = state =>
 	messages.isInitializing(state.messages);
 export const getMessages = state => messages.getMessages(state.messages);
+export const isNewMessagePosting = state =>
+	messages.isNewPosting(state.messages);
