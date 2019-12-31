@@ -15,49 +15,24 @@ export const logout = () => (dispatch, getState) => {
 	authService.logout().then(() => {
 		dispatch(authenticationAction.logoutSuccess());
 	});
-	const messageRefresherId = getState().messages.refresherId;
-	if (!!messageRefresherId) {
-		clearInterval(messageRefresherId);
-		dispatch(messagesAction.messagesRefresherInitialized());
+	const messageSource = getState().messages.messageSource;
+	if (!!messageSource) {
+		messageSource.close();
+		dispatch(messagesAction.messagesSourceInitialized());
 	}
 };
 
 export const initMessages = () => dispatch => {
 	dispatch(messagesAction.messagesRequested());
-	messagesService.getMessages().then(messages => {
+	const eventSource = messagesService.getMessages(messages => {
 		dispatch(messagesAction.messagesReceived(messages));
-		// TODO manage with SSE instead of mocked interval
-		const refresherId = setInterval(() => {
-			dispatch(
-				messagesAction.messagesReceived([
-					{
-						_id: new Date().getTime(),
-						date: new Date(),
-						message: `new message ${new Date()}`,
-						user: 'mock'
-					}
-				])
-			);
-		}, 3000);
-		dispatch(messagesAction.messagesRefresherInitialized(refresherId));
 	});
+	dispatch(messagesAction.messagesSourceInitialized(eventSource));
 };
 
 export const postNewMessage = newMessage => (dispatch, getState) => {
 	dispatch(messagesAction.newMessagePosted(newMessage));
 	messagesService.postNewMessage(newMessage).then(() => {
-		const login = getState().authentication.login;
-		// TODO remove this explicit dispatch after switching to SSE
-		dispatch(
-			messagesAction.messagesReceived([
-				{
-					_id: new Date().getTime(),
-					date: new Date(),
-					message: newMessage,
-					user: login
-				}
-			])
-		);
 		dispatch(messagesAction.newMessageAdded());
 	});
 };

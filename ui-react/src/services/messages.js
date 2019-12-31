@@ -1,14 +1,18 @@
-import { get, post } from './api';
+import { post } from './api';
 
-// get /messages
-export const getMessages = () => {
+// get /messages SSE
+export const getMessages = handleNewMessage => {
 	console.log('getMessages');
-	return get('/messages').then(messages =>
-		messages.map(message => {
+	const eventSource = new EventSource('/api/messages');
+	eventSource.onmessage = event => {
+		const parsedData = JSON.parse(event.data).map(message => {
 			message.date = new Date(message.date);
 			return message;
-		})
-	);
+		});
+		console.log('retrieve new message', parsedData);
+		handleNewMessage(parsedData);
+	};
+	return eventSource;
 };
 
 export const postNewMessage = newMessage => {

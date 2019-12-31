@@ -1,7 +1,7 @@
 import {
 	MESSAGES_REQUESTED,
 	MESSAGES_RECEIVED,
-	MESSAGES_REFRESHER_INITIALIZED,
+	MESSAGES_SOURCE_INITIALIZED,
 	MESSAGES_NEW_POSTED,
 	MESSAGES_NEW_ADDED
 } from './actions';
@@ -9,7 +9,7 @@ import {
 const virginState = {
 	initializing: false,
 	messages: [],
-	refresherId: undefined,
+	messageSource: undefined,
 	newPosting: false
 };
 
@@ -31,10 +31,10 @@ const reducer = (state = { ...virginState }, action) => {
 				initializing: false,
 				messages
 			};
-		case MESSAGES_REFRESHER_INITIALIZED:
+		case MESSAGES_SOURCE_INITIALIZED:
 			return {
 				...state,
-				refresherId: action.refresherId
+				messageSource: action.messageSource
 			};
 		case MESSAGES_NEW_POSTED:
 			return {

@@ -1,6 +1,6 @@
 export const MESSAGES_REQUESTED = 'MESSAGES_REQUESTED';
 export const MESSAGES_RECEIVED = 'MESSAGES_RECEIVED';
-export const MESSAGES_REFRESHER_INITIALIZED = 'MESSAGES_REFRESHER_INITIALIZED';
+export const MESSAGES_SOURCE_INITIALIZED = 'MESSAGES_SOURCE_INITIALIZED';
 export const MESSAGES_NEW_POSTED = 'MESSAGES_NEW_POSTED';
 export const MESSAGES_NEW_ADDED = 'MESSAGES_NEW_ADDED';
 
@@ -15,10 +15,10 @@ export const messagesReceived = messages => dispatch =>
 		messages
 	});
 
-export const messagesRefresherInitialized = refresherId => dispatch =>
+export const messagesSourceInitialized = messageSource => dispatch =>
 	dispatch({
-		type: MESSAGES_REFRESHER_INITIALIZED,
-		refresherId
+		type: MESSAGES_SOURCE_INITIALIZED,
+		messageSource
 	});
 
 export const newMessagePosted = message => dispatch =>
