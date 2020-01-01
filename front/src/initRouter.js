@@ -6,9 +6,10 @@ import { UnauthorizedException } from './exceptions';
 
 let streamClients = [];
 
+const getCollection = db => db.collection('myData');
+
 const getMessages = db => async (req, res) => {
-	const data = await db
-		.collection('myData')
+	const data = await getCollection(db)
 		.find(
 			{},
 			{
@@ -38,18 +39,28 @@ const getMessages = db => async (req, res) => {
 		res
 	};
 	streamClients.push(newClient);
+	console.log(`[${clientId}] Added to clients`);
 	// unregister client when client close connection
 	req.on('close', () => {
-		console.log(`${clientId} Connection closed`);
+		console.log(`[${clientId}] Connection closed`);
 		streamClients = streamClients.filter(c => c.id !== clientId);
 	});
 };
 
-function sendNewMessageToAllStreamClients(newMessageWrapper) {
+const sendNewMessagesToAllStreamClients = newMessagesWrapper => {
 	streamClients.forEach(c =>
-		c.res.write(`data: ${JSON.stringify(newMessageWrapper)}\n\n`)
+		c.res.write(`data: ${JSON.stringify(newMessagesWrapper)}\n\n`)
 	);
-}
+};
+
+const initMessageWatcher = db => {
+	console.log('initMessageWatcher');
+	const changeStream = getCollection(db).watch();
+	changeStream.on('change', next => {
+		console.log('new message in database', next);
+		sendNewMessagesToAllStreamClients([next.fullDocument]);
+	});
+};
 
 const postMessages = db => async (req, res) => {
 	const { newMessage } = req.body;
@@ -58,11 +69,14 @@ const postMessages = db => async (req, res) => {
 		message: newMessage,
 		user: req.user
 	};
-	const { insertedId } = await db
-		.collection('myData')
-		.insertOne(newMessageWrapper);
-	res.json({ ok: true });
-	sendNewMessageToAllStreamClients([{ _id: insertedId, ...newMessageWrapper }]);
+	const { insertedId } = await getCollection(db).insertOne(newMessageWrapper);
+	res.json({
+		ok: true,
+		newMessage: {
+			_id: insertedId,
+			...newMessageWrapper
+		}
+	});
 };
 
 const login = (req, res) => {
@@ -101,6 +115,7 @@ export const initRouter = ({ hostname, port }, db) => {
 	app.route('/logout').post(logout);
 	app.use(handle404);
 	app.use(handleError);
+	initMessageWatcher(db);
 	return new Promise((resolve, reject) => {
 		app
 			.listen(port, hostname, function() {
