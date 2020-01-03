@@ -83,3 +83,5 @@ export const remove = endpoint => {
 		.then(handleBusinessError, handleTechnicalError)
 		.then(handleContentType);
 };
+
+export const getEventSource = path => new EventSource(`${baseUrl}${path}`);

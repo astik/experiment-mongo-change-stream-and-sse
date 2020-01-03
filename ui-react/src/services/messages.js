@@ -1,9 +1,9 @@
-import { post } from './api';
+import { post, getEventSource } from './api';
 
 // get /messages SSE
 export const getMessages = handleNewMessage => {
 	console.log('getMessages');
-	const eventSource = new EventSource('/api/messages');
+	const eventSource = getEventSource('/messages');
 	eventSource.onmessage = event => {
 		const parsedData = JSON.parse(event.data).map(message => {
 			message.date = new Date(message.date);

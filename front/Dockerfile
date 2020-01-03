@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:12.14.0-stretch
 
 # Install Mongo CLI
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E52529D4

@@ -34,3 +34,11 @@ services:
       - TEMPO_IN_SECOND=10
     depends_on:
       - mongo
+
+  client-ui-react:
+    build: ui-react
+    container_name: client-ui-react
+    ports:
+      - 8080:80
+    depends_on:
+      - node-application-front
