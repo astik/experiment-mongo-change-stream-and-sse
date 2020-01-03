@@ -3,42 +3,34 @@ import { initDb } from './initDb';
 
 const config = {
 	db: {
-		username: '',
-		password: '',
-		url: 'localhost:27017',
-		name: 'poc'
-	}
+		username: process.env.DATABASE_USERNAME,
+		password: process.env.DATABASE_PASSWORD,
+		url: process.env.DATABASE_URL,
+		name: process.env.DATABASE_NAME
+	},
+	tempoInSecond: process.env.TEMPO_IN_SECOND
 };
 
+console.log('config used:', config);
+
 const createData = async db => {
-	await db.collection('myData').insertOne({
+	const data = {
 		date: new Date(),
 		message: starwars(),
 		user: 'starwars bot'
-	});
-	console.log('data was inserted into database');
-};
-
-const logData = async db => {
-	const data = await db
-		.collection('myData')
-		.find(
-			{},
-			{
-				sort: { date: -1 }
-			}
-		)
-		.limit(2)
-		.toArray();
-	console.log('data', data);
+	};
+	await db.collection('myData').insertOne(data);
+	console.log('data was inserted into database', data);
 };
 
 const compute = async () => {
 	const { db } = await initDb(config.db);
-	await createData(db);
-	await logData(db);
+
+	setInterval(async () => {
+		await createData(db);
+	}, config.tempoInSecond * 1000);
 };
 
 compute()
-	.catch(err => console.error('there was an error', err))
-	.then(() => process.exit(0));
+	.then(() => console.log('Everything is ready'))
+	.catch(err => console.error('there was an error', err));

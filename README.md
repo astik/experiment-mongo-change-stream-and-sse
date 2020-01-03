@@ -21,11 +21,11 @@
 
 ### Mongo
 
-Deploy new container and enabling replica set:
+The system needs a Mongo instance with replica set enabled::
 
 ```sh
 # as we need oplog to be available, we need to run a replica set
-docker run -d -p 27017:27017 --name mongodb mongo:4.0.4 --replSet rs0
+docker run -d -p 27017:27017 --name mongodb mongo:4.0.14 --replSet rs0
 # the we need to initialize replica set
 # connect to container instance
 docker exec -it mongodb bash
@@ -36,23 +36,30 @@ mongo
 rs.initiate()
 ```
 
-### Node application: Worker
+### Application
 
-TODO: package with docker
-TODO: use environment variable in order to externalize DB configuration
+You can start each application thanks to the setup shell script contain in each folder (_front_, _worker_, _ui-react_).
 
-### Node application: Front
+A docker alternative is available to quickly test the system:
 
-TODO: use environment variable in order to externalize DB configuration
-TODO: use environment variable in order to externalize server configuration
-TODO: package with docker
+```sh
+docker-compose up
+```
 
-### Client application: ui-react
+If you need to rebuild projects :
 
-TODO: use environment variable in order to externalize server configuration
-TODO: package with docker
+```sh
+docker-compose up --build
+```
 
-# Documentation
+## Development
+
+Each project has a shell script which setup environment variable for application configuration and start the application.
+
+Docker is not required to develop nor test this project.
+It is just easier to bootstrap for non technical profiles =)
+
+## Documentation
 
 - mongo change stream tutorial : https://www.mongodb.com/blog/post/five-minute-mongodb--change-streams-and-mongodb-4x
 - mongo change stream doc : https://docs.mongodb.com/manual/changeStreams/

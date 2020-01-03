@@ -3,16 +3,18 @@ import { initRouter } from './initRouter';
 
 const config = {
 	server: {
-		hostname: 'localhost',
-		port: '3001'
+		hostname: process.env.SERVER_HOSTNAME,
+		port: process.env.SERVER_PORT
 	},
 	database: {
-		username: '',
-		password: '',
-		url: 'localhost:27017',
-		name: 'poc'
+		username: process.env.DATABASE_USERNAME,
+		password: process.env.DATABASE_PASSWORD,
+		url: process.env.DATABASE_URL,
+		name: process.env.DATABASE_NAME
 	}
 };
+
+console.log('config used:', config);
 
 const compute = async () => {
 	const { db } = await initDb(config.database);
