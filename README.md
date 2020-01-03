@@ -1,6 +1,8 @@
-# ACEM - POC
+# Experiment: Mongo change event and SSE
 
-## TLDR
+This project aims to experiment on Mongo's _change event stream_ and SSE (Server Sent Event) to broadcast changes into database.
+
+## Macro architecture
 
 - Mongo DB server
   - replicat set is enabled in order to have oplog and allow change stream listener
@@ -17,9 +19,32 @@
   - send to backend new message
   - receive new messages saved into backend through SSE
 
-## Prérequisite
+## Setup
 
-### Mongo
+### With Docker
+
+```sh
+docker-compose up
+```
+
+If you need to rebuild projects :
+
+```sh
+docker-compose up --build
+```
+
+You can access:
+
+- front client on _localhost:8080_
+- api on _localhost:3001_
+
+### Without Docker
+
+Docker is not required to develop nor test this project.
+It is just easier to bootstrap a database for our demonstration.
+Also, focus for this experiment is on application side.
+
+#### Mongo
 
 The system needs a Mongo instance with replica set enabled::
 
@@ -36,28 +61,12 @@ mongo
 rs.initiate()
 ```
 
-### Application
+#### Applications
 
-You can start each application thanks to the setup shell script contain in each folder (_front_, _worker_, _ui-react_).
+You can start each application thanks to the setup shell script contain in each folder (_front_, _worker_, _ui-react_): `start-with-env.sh`.
+This shell script which sets up environment variables and start the application.
 
-A docker alternative is available to quickly test the system:
-
-```sh
-docker-compose up
-```
-
-If you need to rebuild projects :
-
-```sh
-docker-compose up --build
-```
-
-## Development
-
-Each project has a shell script which setup environment variable for application configuration and start the application.
-
-Docker is not required to develop nor test this project.
-It is just easier to bootstrap for non technical profiles =)
+UI can be started with classic _create-react-app_ workflow : `npm run start`.
 
 ## Documentation
 
@@ -67,3 +76,16 @@ It is just easier to bootstrap for non technical profiles =)
 - SSE between express and react : https://alligator.io/nodejs/server-sent-events-build-realtime-app/
 - mongo change stream with java : https://github.com/spring-projects/spring-data-mongodb/blob/master/src/main/asciidoc/reference/change-streams.adoc
 - mongo db replica set : https://zgadzaj.com/development/docker/docker-compose/turning-standalone-mongodb-server-into-a-replica-set-with-docker-compose
+
+## Summary
+
+- in order to access Mongo's change stream, we need to enable oplog, and so, we need to enable replica set
+- replica set needs to be manually activated, what is don in this experiment is VERY dirty
+- using Mongo's change stream is very easy with NodeJS
+- broadcasting through SSE is very easy from NodeJS
+- proxy (in our case Nginx) needs specific configuration to allow SSE pass through (enable HTTP1.1 for example)
+- application stack is quite easy to set up once Mongo replica set is enabled
+
+- Docker configuration was the hardest part
+  - i'm quite a beginner with Docker
+  - node application containers need database container to be up and running as replica set, it means, we need to wait for container to be up (managed thanks to Docker _depends_on_ in _docker-compose.yml_), then we need to wait for database to be up (thanks to _Docker-wait-for.sh_ script in each application container) and finally we need to wait for _replica set_ to be available (thanks to polling `rs.status()`with Mongo CLI from each application container)
