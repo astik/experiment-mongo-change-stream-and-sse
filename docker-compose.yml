@@ -8,9 +8,9 @@ services:
     ports:
       - 27017:27017
 
-  node-application-front:
-    build: front
-    container_name: node-application-front
+  node-front:
+    build: node-front
+    container_name: node-front
     environment:
       - SERVER_HOSTNAME=0.0.0.0
       - SERVER_PORT=3001
@@ -23,9 +23,9 @@ services:
     depends_on:
       - mongo
 
-  node-application-worker:
-    build: worker
-    container_name: node-application-worker
+  node-worker:
+    build: node-worker
+    container_name: node-worker
     environment:
       - DATABASE_USERNAME=
       - DATABASE_PASSWORD=
@@ -41,4 +41,4 @@ services:
     ports:
       - 8080:80
     depends_on:
-      - node-application-front
+      - node-front
