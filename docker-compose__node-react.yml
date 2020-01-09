@@ -1,0 +1,44 @@
+version: "3.2"
+
+services:
+  mongo:
+    build: mongodb
+    container_name: mongodb
+    command: "--replSet rs0"
+    ports:
+      - 27017:27017
+
+  backend:
+    build: node-front
+    container_name: node-front
+    environment:
+      - SERVER_HOSTNAME=0.0.0.0
+      - SERVER_PORT=3001
+      - DATABASE_USERNAME=
+      - DATABASE_PASSWORD=
+      - DATABASE_URL=mongo:27017
+      - DATABASE_NAME=poc
+    ports:
+      - 3001:3001
+    depends_on:
+      - mongo
+
+  node-worker:
+    build: node-worker
+    container_name: node-worker
+    environment:
+      - DATABASE_USERNAME=
+      - DATABASE_PASSWORD=
+      - DATABASE_URL=mongo:27017
+      - DATABASE_NAME=poc
+      - TEMPO_IN_SECOND=10
+    depends_on:
+      - mongo
+
+  client-ui-react:
+    build: ui-react
+    container_name: client-ui-react
+    ports:
+      - 3000:80
+    depends_on:
+      - backend

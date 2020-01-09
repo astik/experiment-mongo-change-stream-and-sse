@@ -8,16 +8,14 @@ services:
     ports:
       - 27017:27017
 
-  node-front:
-    build: node-front
-    container_name: node-front
+  backend:
+    build: java-front
+    container_name: java-front
     environment:
-      - SERVER_HOSTNAME=0.0.0.0
       - SERVER_PORT=3001
-      - DATABASE_USERNAME=
-      - DATABASE_PASSWORD=
       - DATABASE_URL=mongo:27017
-      - DATABASE_NAME=poc
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017
+      - SPRING_DATA_MONGODB_DATABASE=poc
     ports:
       - 3001:3001
     depends_on:
@@ -39,6 +37,6 @@ services:
     build: ui-react
     container_name: client-ui-react
     ports:
-      - 8080:80
+      - 3000:80
     depends_on:
-      - node-front
+      - backend

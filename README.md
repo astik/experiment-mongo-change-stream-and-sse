@@ -8,7 +8,7 @@ This project aims to experiment on Mongo's _change event stream_ and SSE (Server
   - replicat set is enabled in order to have oplog and allow change stream listener
 - Node application _worker_
   - write new message into DB
-- Node application _front_
+- Applications _backend_ (_front-java_ or _front-node_)
   - register connected clients
   - open a SSE "channel" for each connected client
   - is notified by each new DB entry through change stream events and forward new message to each connected client
@@ -30,12 +30,15 @@ docker-compose up
 If you need to rebuild projects :
 
 ```sh
-docker-compose up --build
+# node backend + react frontend
+docker-compose -f docker-compose__node-react.yml up --build
+# java backend + react frontend
+docker-compose -f docker-compose__java-react.yml up --build
 ```
 
 You can access:
 
-- front client on _localhost:8080_
+- front client on _localhost:3000_
 - api on _localhost:3001_
 
 ### Without Docker
@@ -63,7 +66,7 @@ rs.initiate()
 
 #### Applications
 
-You can start each application thanks to the setup shell script contain in each folder (_front_, _worker_, _ui-react_): `start-with-env.sh`.
+You can start each application thanks to the setup shell script contain in each folder (_node-front_, _node-worker_, _java-front_, _ui-react_): `start-with-env.sh`.
 This shell script which sets up environment variables and start the application.
 
 UI can be started with classic _create-react-app_ workflow : `npm run start`.
