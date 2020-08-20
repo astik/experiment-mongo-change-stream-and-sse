@@ -1,4 +1,4 @@
-import { UnauthorizedException } from '../exceptions';
+import { UnauthorizedException } from '../exceptions/index.js';
 
 function handleAuth(req, res, next) {
 	if (req.url.startsWith('/login')) {

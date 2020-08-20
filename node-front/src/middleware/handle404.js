@@ -1,4 +1,4 @@
-import { NotFoundException } from '../exceptions';
+import { NotFoundException } from '../exceptions/index.js';
 
 const handle404 = function(req, res, next) {
 	next(new NotFoundException());

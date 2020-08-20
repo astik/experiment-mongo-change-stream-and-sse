@@ -1,4 +1,7 @@
-import { NotFoundException, UnauthorizedException } from '../exceptions';
+import {
+	NotFoundException,
+	UnauthorizedException
+} from '../exceptions/index.js';
 
 const handleError = function(err, req, res, next) {
 	if (err instanceof UnauthorizedException) {

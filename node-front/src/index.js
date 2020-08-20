@@ -1,5 +1,5 @@
-import { initDb } from './initDb';
-import { initRouter } from './initRouter';
+import { initDb } from './initDb.js';
+import { initRouter } from './initRouter.js';
 
 const config = {
 	server: {

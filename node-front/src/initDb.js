@@ -1,4 +1,6 @@
-import { MongoClient } from 'mongodb';
+import mongoDb from 'mongodb';
+
+const { MongoClient } = mongoDb;
 
 export const initDb = ({ username, password, url, name }) => {
 	let urlmongo = `mongodb://${url}/${name}`;

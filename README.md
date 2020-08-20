@@ -24,7 +24,10 @@ This project aims to experiment on Mongo's _change event stream_ and SSE (Server
 ### With Docker
 
 ```sh
-docker-compose up
+# node backend + react frontend
+docker-compose -f docker-compose__node-react.yml up
+# java backend + react frontend
+docker-compose -f docker-compose__java-react.yml up
 ```
 
 If you need to rebuild projects :
@@ -66,8 +69,8 @@ rs.initiate()
 
 #### Applications
 
-You can start each application thanks to the setup shell script contain in each folder (_node-front_, _node-worker_, _java-front_, _ui-react_): `start-with-env.sh`.
-This shell script which sets up environment variables and start the application.
+You can start each application thanks to the setup shell script contained in each folder (_node-front_, _node-worker_, _java-front_, _ui-react_): `start-with-env.sh`.
+This shell script sets up environment variables and start the application.
 
 UI can be started with classic _create-react-app_ workflow : `npm run start`.
 

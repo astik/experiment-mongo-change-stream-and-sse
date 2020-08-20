@@ -1,4 +1,4 @@
-FROM node:12.14.0-stretch
+FROM node:14.8.0-stretch
 
 # Install Mongo CLI
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E52529D4
@@ -18,7 +18,6 @@ RUN chmod +x ./Docker-wait-for.sh
 COPY package*.json ./
 RUN npm ci
 
-COPY .babelrc ./
 COPY src src/
 
 # Wait for mongo to be up and running as replica set

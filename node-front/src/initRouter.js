@@ -1,8 +1,8 @@
-import express from 'express';
 import bodyParser from 'body-parser';
-import { handle404, handleAuth, handleError } from './middleware';
 import cookieParser from 'cookie-parser';
-import { UnauthorizedException } from './exceptions';
+import express from 'express';
+import { UnauthorizedException } from './exceptions/index.js';
+import { handle404, handleAuth, handleError } from './middleware/index.js';
 
 let streamClients = [];
 
