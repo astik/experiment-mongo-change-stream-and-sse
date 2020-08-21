@@ -1,0 +1,30 @@
+<ng-container *ngIf="loading; else notLoading">
+	<app-loader></app-loader>
+</ng-container>
+
+<ng-template #notLoading>
+	<mat-card class="card">
+		<mat-card-header class="cardHeader">
+			<mat-card-title class="cardTitle">Connect to system ... </mat-card-title>
+		</mat-card-header>
+		<form class="cardForm" (submit)="login(username)">
+			<mat-card-content class="cardContent">
+				<mat-form-field class="example-full-width">
+					<mat-label>Username</mat-label>
+					<input
+						matInput
+						required
+						[(ngModel)]="username"
+						#ctrl="ngModel"
+						name="username"
+					/>
+				</mat-form-field>
+			</mat-card-content>
+			<mat-card-actions class="cardActions">
+				<button mat-raised-button color="primary" [disabled]="!ctrl.valid">
+					Login
+				</button>
+			</mat-card-actions>
+		</form>
+	</mat-card>
+</ng-template>

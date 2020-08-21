@@ -1,0 +1,7 @@
+<mat-toolbar class="mat-elevation-z4">
+	<h1 class="appTitle">POC Realtime synchronisation</h1>
+	<ng-container *ngIf="me$ | async as me">
+		<div class="connectedAs">Connected as {{ me.name }}</div>
+		<button mat-raised-button color="primary" (click)="logout()">Logout</button>
+	</ng-container>
+</mat-toolbar>

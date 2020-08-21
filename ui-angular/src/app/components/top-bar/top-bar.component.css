@@ -1,0 +1,12 @@
+.appTitle {
+	font-size: 160%;
+	flex: 1;
+}
+
+.connectedAs {
+	margin-right: 10px;
+}
+
+button {
+	text-transform: uppercase;
+}

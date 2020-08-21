@@ -1,1 +1,9 @@
-<div>TODO</div>
+<app-top-bar></app-top-bar>
+<div class="pageContainer">
+	<ng-container *isAuthenticated="true; else notAuthenticated">
+		<app-authenticated-app></app-authenticated-app>
+	</ng-container>
+	<ng-template #notAuthenticated>
+		<app-unauthenticated-app></app-unauthenticated-app>
+	</ng-template>
+</div>

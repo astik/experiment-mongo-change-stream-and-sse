@@ -1,0 +1,8 @@
+{
+	"/api": {
+		"target": "http://knut.local:3001",
+		"pathRewrite": {
+			"^/api": ""
+		}
+	}
+}
