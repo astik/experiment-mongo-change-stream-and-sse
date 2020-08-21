@@ -25,24 +25,25 @@ This project aims to experiment on Mongo's _change event stream_ and SSE (Server
 
 ```sh
 # node backend + react frontend
-docker-compose -f docker-compose__node-react.yml up
+docker-compose -f docker-compose__node.yml up
 # java backend + react frontend
-docker-compose -f docker-compose__java-react.yml up
+docker-compose -f docker-compose__java.yml up
 ```
 
 If you need to rebuild projects :
 
 ```sh
 # node backend + react frontend
-docker-compose -f docker-compose__node-react.yml up --build
+docker-compose -f docker-compose__node.yml up --build
 # java backend + react frontend
-docker-compose -f docker-compose__java-react.yml up --build
+docker-compose -f docker-compose__java.yml up --build
 ```
 
 You can access:
 
-- front client on _localhost:3000_
+- React front client on _localhost:3000_
 - api on _localhost:3001_
+- Angular front client on _localhost:3002_
 
 ### Without Docker
 
