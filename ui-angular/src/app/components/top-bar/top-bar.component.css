@@ -5,6 +5,9 @@
 
 .connectedAs {
 	margin-right: 10px;
+	margin-left: 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 button {

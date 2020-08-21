@@ -1,0 +1,19 @@
+form {
+	display: flex;
+	padding-left: 16px;
+	padding-right: 16px;
+	align-items: center;
+}
+
+.input {
+	flex: 1;
+	margin-right: 16px;
+}
+
+.mat-list-base .mat-list-item .mat-line:nth-child(n + 2) {
+	color: rgba(0, 0, 0, 0.54);
+}
+
+.mat-list-base .mat-list-item .mat-line {
+	white-space: normal;
+}

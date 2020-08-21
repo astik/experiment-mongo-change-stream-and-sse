@@ -1,1 +1,23 @@
-<div>TODO AuthenticatedApp</div>
+<mat-list *ngIf="messages$ | async as messages">
+	<mat-list-item *ngFor="let message of messages">
+		<div mat-line>
+			{{ message.user }} - {{ message.date | date: 'EEEE, d LLLL yyyy, HH:mm' }}
+		</div>
+		<div mat-line>{{ message.message }}</div>
+	</mat-list-item>
+</mat-list>
+<form (submit)="newMessage(message)">
+	<mat-form-field class="input">
+		<mat-label>New message</mat-label>
+		<input
+			matInput
+			required
+			[(ngModel)]="message"
+			#ctrl="ngModel"
+			name="message"
+		/>
+	</mat-form-field>
+	<button mat-raised-button color="primary" [disabled]="!ctrl.valid">
+		Send new message
+	</button>
+</form>
