@@ -87,9 +87,9 @@ UI can be started with classic _create-react-app_ workflow : `npm run start`.
 ## Summary
 
 - in order to access Mongo's change stream, we need to enable oplog, and so, we need to enable replica set
-- replica set needs to be manually activated, what is don in this experiment is VERY dirty
-- using Mongo's change stream is very easy with NodeJS
-- broadcasting through SSE is very easy from NodeJS
+- replica set needs to be manually activated, what is done in this experiment is VERY dirty
+- using Mongo's change stream is very easy with NodeJS or Java
+- broadcasting through SSE is very easy from NodeJS or Java
 - proxy (in our case Nginx) needs specific configuration to allow SSE pass through (enable HTTP1.1 for example)
 - application stack is quite easy to set up once Mongo replica set is enabled
 
